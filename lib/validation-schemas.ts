@@ -485,3 +485,40 @@ export type SubmitFormResponseInput = z.infer<typeof submitFormResponseSchema>;
 export type SendClientInvitationInput = z.infer<typeof sendClientInvitationSchema>;
 export type AcceptClientInvitationInput = z.infer<typeof acceptClientInvitationSchema>;
 export type SubmitClientFeedbackInput = z.infer<typeof submitClientFeedbackSchema>;
+
+  // ============================================================================
+  // ESTIMATE SCHEMAS
+  // ============================================================================
+
+  export const estimateStatusSchema = z.enum(['draft', 'sent', 'accepted', 'rejected']);
+
+  export const estimateLineItemSchema = z.object({
+    description: z.string().min(1, 'Line item description is required').max(500),
+    quantity: z.number().int().min(1, 'Quantity must be at least 1'),
+    unit_amount: z.number().int().min(0, 'Unit amount must be >= 0'),
+  });
+
+  export const createEstimateSchema = z.object({
+    title: z.string().min(1, 'Estimate title is required').max(200),
+    notes: z.string().max(5000).optional().nullable(),
+    project_id: optionalUuidSchema,
+    currency: z
+      .string()
+      .regex(/^[A-Z]{3}$/, 'Currency must be a 3-letter code')
+      .default('USD'),
+    line_items: z
+      .array(estimateLineItemSchema)
+      .min(1, 'At least one line item is required')
+      .max(200, 'Too many line items'),
+  });
+
+  export const updateEstimateStatusSchema = z.object({
+    status: estimateStatusSchema,
+  });
+
+  export const getEstimatesQuerySchema = z.object({
+    status: estimateStatusSchema.optional(),
+    projectId: uuidSchema.optional(),
+    limit: z.string().regex(/^\d+$/, 'Limit must be a number').transform(Number).optional(),
+    offset: z.string().regex(/^\d+$/, 'Offset must be a number').transform(Number).optional(),
+  });

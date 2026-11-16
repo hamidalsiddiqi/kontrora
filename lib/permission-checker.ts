@@ -517,6 +517,9 @@ export async function checkPermissionHybrid(
       // MANAGE_ACCOUNTS has no override — requires base permission + context
       // (VIEW_ALL_ACCOUNTS should NOT grant manage privileges)
 
+      // Estimates (financial data) - account-scoped; view-all overrides view only
+      [Permission.VIEW_ESTIMATES]: [Permission.VIEW_ALL_ESTIMATES],
+
       // Updates
       [Permission.VIEW_UPDATES]: [Permission.VIEW_ALL_UPDATES],
       // MANAGE_UPDATES has no override — requires base permission + context

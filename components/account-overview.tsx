@@ -589,6 +589,12 @@ export function AccountOverview({
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-3">
+                <Link href={`/accounts/${(account as any).id}/estimates`}>
+                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                    <BarChart3 className="h-4 w-4" />
+                    <span className="hidden sm:inline">Estimates</span>
+                  </Button>
+                </Link>
                 {canEditAccount && (
                   <AccountEditDialog
                     account={account}

@@ -30,6 +30,13 @@ export enum Permission {
   VIEW_ALL_ACCOUNTS = 'view_all_accounts', // Override: View all accounts organization-wide
 
   // ========================================
+  // FINANCIAL / ESTIMATE PERMISSIONS
+  // ========================================
+  MANAGE_ESTIMATES = 'manage_estimates', // Create, edit, and transition estimates for accounts user can access
+  VIEW_ESTIMATES = 'view_estimates', // View estimates for accounts user can access
+  VIEW_ALL_ESTIMATES = 'view_all_estimates', // Override: View all estimates organization-wide
+
+  // ========================================
   // PROJECT PERMISSIONS
   // ========================================
   MANAGE_PROJECTS = 'manage_projects', // Create, edit, and delete projects in assigned accounts
@@ -163,6 +170,27 @@ export const PermissionDefinitions: Record<
     name: 'View All Accounts',
     description: 'View all accounts across the organization (override)',
     category: 'Account Management',
+    isOverride: true,
+  },
+
+  // ========================================
+  // FINANCIAL / ESTIMATE PERMISSIONS
+  // ========================================
+  [Permission.MANAGE_ESTIMATES]: {
+    name: 'Manage Estimates',
+    description:
+      'Create, edit drafts, and transition estimates for accounts the user can access (financial data)',
+    category: 'Financial Management',
+  },
+  [Permission.VIEW_ESTIMATES]: {
+    name: 'View Estimates',
+    description: 'View estimates for accounts the user can access (financial data)',
+    category: 'Financial Management',
+  },
+  [Permission.VIEW_ALL_ESTIMATES]: {
+    name: 'View All Estimates',
+    description: 'View all estimates across the organization (override)',
+    category: 'Financial Management',
     isOverride: true,
   },
 
@@ -375,6 +403,10 @@ export const PermissionCategories = {
   ),
   Workflows: Object.values(Permission).filter(
     (p: Permission) => (PermissionDefinitions as any)[p as string]?.category === 'Workflows',
+  ),
+  'Financial Management': Object.values(Permission).filter(
+    (p: Permission) =>
+      (PermissionDefinitions as any)[p as string]?.category === 'Financial Management',
   ),
   'Client Portal': Object.values(Permission).filter(
     (p: Permission) => (PermissionDefinitions as any)[p as string]?.category === 'Client Portal',
